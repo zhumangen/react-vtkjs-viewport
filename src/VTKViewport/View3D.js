@@ -10,6 +10,9 @@ import { ViewTypes } from 'vtk.js/Sources/Widgets/Core/WidgetManager/Constants';
 import { createSub } from '../lib/createSub.js';
 import createLabelPipeline from './createLabelPipeline';
 
+import presets from '../presets';
+import applyPreset from '../helpers/applyPreset';
+
 export default class View3D extends Component {
   static propTypes = {
     volumes: PropTypes.array,
@@ -49,6 +52,11 @@ export default class View3D extends Component {
       paint: createSub(),
       paintStart: createSub(),
       paintEnd: createSub(),
+    };
+
+    this.state = {
+      voi: this.getVOI(this.props.volumes[0]),
+      presetId: 'vtkMRMLVolumePropertyNode3',
     };
   }
 
@@ -123,10 +131,44 @@ export default class View3D extends Component {
         volumes,
         type: 'VIEW3D',
         _component: this, // Backdoor still open for now whilst the API isn't as mature as View2D.
+        setPresetId: this.setPresetId.bind(this),
+        getPresetId: this.getPresetId.bind(this),
       };
 
       this.props.onCreated(api);
     }
+  }
+
+  getVOI = actor => {
+    // Note: This controls window/level
+
+    // TODO: Make this work reactively with onModified...
+    const rgbTransferFunction = actor.getProperty().getRGBTransferFunction(0);
+    const range = rgbTransferFunction.getMappingRange();
+    const windowWidth = Math.abs(range[1] - range[0]);
+    const windowCenter = range[0] + windowWidth / 2;
+
+    return {
+      windowCenter,
+      windowWidth,
+    };
+  };
+
+  setPresetId(presetId) {
+    if (presetId || this.state.presetId !== presetId) {
+      this.setState({ presetId });
+      if (this.props.volumes.length > 0) {
+        const preset = presets.find(p => p.id === presetId);
+        if (preset) {
+          applyPreset(this.props.volumes[0], preset);
+          this.renderWindow.render();
+        }
+      }
+    }
+  }
+
+  getPresetId() {
+    return this.state.presetId;
   }
 
   componentDidUpdate(prevProps) {
@@ -134,12 +176,16 @@ export default class View3D extends Component {
     if (prevProps.volumes !== this.props.volumes) {
       this.props.volumes.forEach(volume => {
         if (!volume.isA('vtkVolume')) {
-          console.warn('Data to <Vtk2D> is not vtkVolume data');
+          console.warn('Data to <Vtk3D> is not vtkVolume data');
         }
       });
 
       if (this.props.volumes.length) {
         this.props.volumes.forEach(this.renderer.addVolume);
+        const preset = presets.find(p => p.id === this.state.presetId);
+        if (preset) {
+          applyPreset(this.props.volumes[0], preset);
+        }
       } else {
         // TODO: Remove all volumes
       }
@@ -150,7 +196,7 @@ export default class View3D extends Component {
     if (prevProps.actors !== this.props.actors && this.props.actors) {
       this.props.actors.forEach(actor => {
         if (!actor.isA('vtkActor')) {
-          console.warn('Data to <Vtk2D> is not vtkActor data');
+          console.warn('Data to <Vtk3D> is not vtkActor data');
         }
       });
 
