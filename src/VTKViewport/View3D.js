@@ -57,6 +57,7 @@ export default class View3D extends Component {
     this.state = {
       voi: this.getVOI(this.props.volumes[0]),
       presetId: 'vtkMRMLVolumePropertyNode3',
+      slabThickness: 0.1,
     };
   }
 
@@ -133,6 +134,8 @@ export default class View3D extends Component {
         _component: this, // Backdoor still open for now whilst the API isn't as mature as View2D.
         setPresetId: this.setPresetId.bind(this),
         getPresetId: this.getPresetId.bind(this),
+        setSlabThickness: this.setSlabThickness.bind(this),
+        getSlabThickness: this.getSlabThickness.bind(this),
       };
 
       this.props.onCreated(api);
@@ -169,6 +172,15 @@ export default class View3D extends Component {
 
   getPresetId() {
     return this.state.presetId;
+  }
+
+  setSlabThickness(slabThickness) {
+    this.setState({ slabThickness });
+    this.renderer.getActiveCamera().setThicknessFromFocalPoint(slabThickness);
+  }
+
+  getSlabThickness() {
+    return this.state.slabThickness;
   }
 
   componentDidUpdate(prevProps) {
