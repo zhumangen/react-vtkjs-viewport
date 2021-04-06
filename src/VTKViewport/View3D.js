@@ -13,6 +13,8 @@ import createLabelPipeline from './createLabelPipeline';
 import presets from '../presets';
 import applyPreset from '../helpers/applyPreset';
 
+import ReactResizeDetector from 'react-resize-detector';
+
 export default class View3D extends Component {
   static propTypes = {
     volumes: PropTypes.array,
@@ -28,6 +30,9 @@ export default class View3D extends Component {
     onCreated: PropTypes.func,
     onDestroyed: PropTypes.func,
     labelmapRenderingOptions: PropTypes.object,
+    enableResizeDetector: PropTypes.bool,
+    resizeRefreshRateMs: PropTypes.number,
+    resizeRefreshMode: PropTypes.string,
   };
 
   static defaultProps = {
@@ -37,6 +42,9 @@ export default class View3D extends Component {
       visible: true,
       renderOutline: false,
     },
+    enableResizeDetector: true,
+    resizeRefreshRateMs: 200,
+    resizeRefreshMode: 'debounce',
   };
 
   constructor(props) {
@@ -346,6 +354,8 @@ export default class View3D extends Component {
     this.genericRenderWindow.delete();
   }
 
+  onResize = () => this.genericRenderWindow.resize();
+
   render() {
     if (!this.props.volumes && !this.props.actors) {
       return null;
@@ -375,6 +385,13 @@ export default class View3D extends Component {
 
     return (
       <div style={style}>
+        {this.props.enableResizeDetector && (
+          <ReactResizeDetector
+            refreshMode={this.props.resizeRefreshRateMs}
+            refreshRate={this.props.resizeRefreshRateMs}
+            onResize={this.onResize}
+          />
+        )}
         <div ref={this.container} style={style} />
         <ViewportOverlay {...this.props.dataDetails} voi={voi} />
       </div>
