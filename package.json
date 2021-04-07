@@ -1,6 +1,6 @@
 {
   "name": "react2-vtkjs-viewport",
-  "version": "0.14.3",
+  "version": "0.14.4",
   "description": "VTK.js image viewport component for React",
   "author": "OHIF Contributors & zhumangen",
   "license": "MIT",
@@ -25,12 +25,12 @@
     "cornerstone-tools": "^4.20.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-resize-detector": "^4.2.1",
     "vtk.js": "^11.14.0"
   },
   "dependencies": {
     "date-fns": "^2.2.1",
-    "gl-matrix": "^3.1.0"
+    "gl-matrix": "^3.1.0",
+    "react-resize-detector": "^6.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
