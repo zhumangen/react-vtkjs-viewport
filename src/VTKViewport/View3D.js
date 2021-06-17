@@ -13,7 +13,7 @@ import createLabelPipeline from './createLabelPipeline';
 import presets from '../presets';
 import applyPreset from '../helpers/applyPreset';
 
-import ReactResizeDetector from 'react-resize-detector';
+import ReactResizeDetector from 'react-resize-detector/build/withPolyfill';
 
 export default class View3D extends Component {
   static propTypes = {
@@ -43,7 +43,7 @@ export default class View3D extends Component {
       renderOutline: false,
     },
     enableResizeDetector: true,
-    resizeRefreshRateMs: 200,
+    resizeRefreshRateMs: 100,
     resizeRefreshMode: 'debounce',
   };
 

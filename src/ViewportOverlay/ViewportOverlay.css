@@ -1,5 +1,6 @@
 :root {
-  --viewport-tag-padding: 20px;
+  --viewport-tag-padding: 5px;
+  --viewport-tag-padding-right: 20px;
 }
 
 .ViewportOverlay {
@@ -27,7 +28,7 @@
 
 .ViewportOverlay .top-right {
   top: var(--viewport-tag-padding);
-  right: var(--viewport-tag-padding);
+  right: var(--viewport-tag-padding-right);
   text-align: right;
 }
 
@@ -38,7 +39,7 @@
 
 .ViewportOverlay .bottom-right {
   bottom: var(--viewport-tag-padding);
-  right: var(--viewport-tag-padding);
+  right: var(--viewport-tag-padding-right);
   text-align: right;
 }
 
