@@ -1,5 +1,5 @@
 import cornerstone from 'cornerstone-core';
-import { requestPoolManager } from 'cornerstone-tools';
+import { requestPoolManager } from 'cs-cornerstone-tools';
 import insertSlice from './data/insertSlice.js';
 import getPatientWeightAndCorrectedDose from './data/getPatientWeightAndCorrectedDose.js';
 
