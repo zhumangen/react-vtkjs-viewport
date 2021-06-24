@@ -3,7 +3,7 @@ import { Component } from 'react';
 
 import { View2D, getImageData, loadImageData } from '@vtk-viewport';
 import cornerstone from 'cornerstone-core';
-import cornerstoneTools from 'cornerstone-tools';
+import cornerstoneTools from 'cs-cornerstone-tools';
 import './initCornerstone.js';
 import vtkVolumeMapper from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
 import vtkVolume from 'vtk.js/Sources/Rendering/Core/Volume';

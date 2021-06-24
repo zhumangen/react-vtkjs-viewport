@@ -3463,14 +3463,6 @@ cornerstone-math@^0.1.8:
   resolved "https://registry.yarnpkg.com/cornerstone-math/-/cornerstone-math-0.1.8.tgz#68ab1f9e4fdcd7c5cb23a0d2eb4263f9f894f1c5"
   integrity sha512-x7NEQHBtVG7j1yeyj/aRoKTpXv1Vh2/H9zNLMyqYJDtJkNng8C4Q8M3CgZ1qer0Yr7eVq2x+Ynmj6kfOm5jXKw==
 
-cornerstone-tools@^4.20.1:
-  version "4.20.1"
-  resolved "https://registry.yarnpkg.com/cornerstone-tools/-/cornerstone-tools-4.20.1.tgz#90f6c28356622eac037683b19f9175f85d33dff7"
-  integrity sha512-SyQsrg3bnGHUvWGZpUq7ia7/gj12S9zQFK2VMhpyAYxK9pWz+PRv8HBi0eEe/fWGAo/Vc62IRkdP3uF9MJlqiQ==
-  dependencies:
-    "@babel/runtime" "7.1.2"
-    cornerstone-math "0.1.7"
-
 cornerstone-wado-image-loader@^3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/cornerstone-wado-image-loader/-/cornerstone-wado-image-loader-3.0.6.tgz#7b2be91f8f658de3a7474e029aa8314a35725132"
@@ -3589,6 +3581,14 @@ crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
+
+cs-cornerstone-tools@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/cs-cornerstone-tools/-/cs-cornerstone-tools-5.1.5.tgz#79265731ecb60073651052eac42634890793a0b1"
+  integrity sha512-eDj6gAP9ivLZFEFuHQLGjhgRoSJC/fQOQGfdJgu95rJIcwpJTaJU9TjCwTyle8rxuPEOQLD61/1r8tYOKXW8RA==
+  dependencies:
+    "@babel/runtime" "7.1.2"
+    cornerstone-math "0.1.7"
 
 css-loader@1.0.0:
   version "1.0.0"
