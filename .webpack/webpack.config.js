@@ -68,11 +68,11 @@ module.exports = (env, argv) => {
           amd: 'cornerstone-core',
           root: 'cornerstone',
         },
-        'cornerstone-tools': {
-          commonjs: 'cornerstone-tools',
-          commonjs2: 'cornerstone-tools',
-          amd: 'cornerstone-tools',
-          root: 'cornerstoneTools',
+        'cs-cornerstone-tools': {
+          commonjs: 'cs-cornerstone-tools',
+          commonjs2: 'cs-cornerstone-tools',
+          amd: 'cs-cornerstone-tools',
+          root: 'csCornerstoneTools',
         },
         //
         react: 'react',
