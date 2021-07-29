@@ -33,6 +33,7 @@ export default class View2D extends Component {
     onPaint: PropTypes.func,
     onPaintStart: PropTypes.func,
     onPaintEnd: PropTypes.func,
+    onContextMenu: PropTypes.func,
     dataDetails: PropTypes.object,
     onCreated: PropTypes.func,
     onDestroyed: PropTypes.func,
@@ -764,7 +765,11 @@ export default class View2D extends Component {
 
     return (
       <div style={style}>
-        <div ref={this.container} style={style} />
+        <div
+          ref={this.container}
+          style={style}
+          onContextMenu={this.props.onContextMenu}
+        />
         <ViewportOverlay
           {...this.props.dataDetails}
           voi={voi}

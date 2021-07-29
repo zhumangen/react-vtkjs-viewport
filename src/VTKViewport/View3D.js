@@ -29,6 +29,7 @@ export default class View3D extends Component {
     dataDetails: PropTypes.object,
     onCreated: PropTypes.func,
     onDestroyed: PropTypes.func,
+    onContextMenu: PropTypes.func,
     labelmapRenderingOptions: PropTypes.object,
     enableResizeDetector: PropTypes.bool,
     resizeRefreshRateMs: PropTypes.number,
@@ -392,7 +393,11 @@ export default class View3D extends Component {
             onResize={this.onResize}
           />
         )}
-        <div ref={this.container} style={style} />
+        <div
+          ref={this.container}
+          style={style}
+          onContextMenu={this.props.onContextMenu}
+        />
         <ViewportOverlay {...this.props.dataDetails} voi={voi} />
       </div>
     );

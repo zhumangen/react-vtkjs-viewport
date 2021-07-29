@@ -10,6 +10,8 @@ const {
   formatNumberPrecision,
   formatTM,
   isValidNumber,
+  formatAge,
+  formatPatId,
 } = helpers;
 
 class ViewportOverlay extends PureComponent {
@@ -21,8 +23,12 @@ class ViewportOverlay extends PureComponent {
     studyDescription: PropTypes.string,
     patientName: PropTypes.string,
     patientId: PropTypes.string,
+    patientAge: PropTypes.string,
+    patientBirthDate: PropTypes.string,
+    patientSex: PropTypes.string,
     seriesNumber: PropTypes.string,
     seriesDescription: PropTypes.string,
+    modality: PropTypes.string,
   };
 
   static defaultProps = {
@@ -41,6 +47,10 @@ class ViewportOverlay extends PureComponent {
       patientId,
       seriesNumber,
       seriesDescription,
+      patientSex,
+      patientBirthDate,
+      patientAge,
+      modality,
       voi,
       rotation,
     } = this.props;
@@ -56,13 +66,14 @@ class ViewportOverlay extends PureComponent {
       <div className="ViewportOverlay">
         <div className="top-left overlay-element">
           <div>{formatPN(patientName)}</div>
-          <div>{patientId}</div>
+          <div>{formatPatId(patientId)}</div>
+          <div>{formatAge(patientBirthDate, patientAge, studyDate)}</div>
+          <div>{patientSex}</div>
         </div>
         <div className="top-right overlay-element">
           <div>{studyDescription}</div>
-          <div>
-            {formatDA(studyDate)} {formatTM(studyTime)}
-          </div>
+          <div>{formatDA(studyDate)}</div>
+          <div>{formatTM(studyTime)}</div>
         </div>
         <div className="bottom-right overlay-element">
           <div>{wwwc}</div>
@@ -70,9 +81,8 @@ class ViewportOverlay extends PureComponent {
         </div>
         <div className="bottom-left overlay-element">
           <div>{seriesNumber >= 0 ? `Ser: ${seriesNumber}` : ''}</div>
-          <div>
-            <div>{seriesDescription}</div>
-          </div>
+          <div>{seriesDescription}</div>
+          <div>{modality}</div>
         </div>
       </div>
     );
