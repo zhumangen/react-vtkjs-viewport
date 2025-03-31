@@ -13,9 +13,9 @@ import vtkVolumeMapper from 'vtk.js/Sources/Rendering/Core/VolumeMapper';
 
 const url = 'http://demo-dcm.rimagcloud.com/dcm/a/dcm4chee-arc/aets/DCM4CHEE/rs';
 const studyInstanceUID =
-  '1.2.86.76547135.7.435304.20191214080201';
+  '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463';
 const ctSeriesInstanceUID =
-  '1.2.392.200036.9116.2.6.1.16.1613472537.1576289805.762732';
+  '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561';
 const searchInstanceOptions = {
   studyInstanceUID,
 };
