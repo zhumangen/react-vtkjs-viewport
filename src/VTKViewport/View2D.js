@@ -40,6 +40,8 @@ export default class View2D extends Component {
     orientation: PropTypes.object,
     labelmapRenderingOptions: PropTypes.object,
     showRotation: PropTypes.bool,
+    viewportIndex: PropTypes.number.isRequired,
+    onDoubleClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -754,6 +756,16 @@ export default class View2D extends Component {
     };
   };
 
+  onDoubleClick = () => {
+    if (this.props.onDoubleClick) {
+      this.props.onDoubleClick(this.props.viewportIndex);
+      setTimeout(() => {
+        this.genericRenderWindow.resize();
+        this.renderWindow.render();
+      }, 0);
+    }
+  };
+
   render() {
     if (!this.props.volumes || !this.props.volumes.length) {
       return null;
@@ -769,6 +781,7 @@ export default class View2D extends Component {
           ref={this.container}
           style={style}
           onContextMenu={this.props.onContextMenu}
+          onDoubleClick={this.onDoubleClick}
         />
         <ViewportOverlay
           {...this.props.dataDetails}

@@ -1,4 +1,5 @@
 import cornerstone from 'cornerstone-core';
+import { requestPoolManager } from 'cs-cornerstone-tools';
 import insertSlice from './data/insertSlice.js';
 import getPatientWeightAndCorrectedDose from './data/getPatientWeightAndCorrectedDose.js';
 
@@ -109,26 +110,24 @@ export default function loadImageDataProgressively(imageDataObject) {
   prefetchImageIds(imageIds, insertPixelData, insertPixelDataErrorHandler);
 }
 
+const requestType = 'prefetch';
+const preventCache = false;
+
 function prefetchImageIds(
   imageIds,
   insertPixelData,
   insertPixelDataErrorHandler
 ) {
-  const imageLoadPoolManager = cornerstone.imageLoadPoolManager;
-  const requestType = 'prefetch';
-
-  const requestFn = id =>
-    cornerstone
-      .loadAndCacheImage(id)
-      .then(insertPixelData, insertPixelDataErrorHandler);
-
   imageIds.forEach(imageId => {
-    imageLoadPoolManager.addRequest(
-      requestFn.bind(this, imageId),
+    requestPoolManager.addRequest(
+      {},
+      imageId,
       requestType,
-      {
-        imageId,
-      }
+      preventCache,
+      insertPixelData,
+      insertPixelDataErrorHandler
     );
   });
+
+  requestPoolManager.startGrabbing();
 }
