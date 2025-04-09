@@ -7,13 +7,13 @@ function determineOrientationIndex(orientation) {
   switch (orientation) {
     case 'A':
     case 'P':
-      return 1;
+      return 'x';
     case 'L':
     case 'R':
-      return 0;
+      return 'y';
     case 'S':
     case 'I':
-      return 2;
+      return 'z';
     default:
       throw new Error('Oblique acquisitions are not currently supported.');
   }
@@ -26,10 +26,7 @@ function determineOrientationIndex(orientation) {
 export default function computeZAxis(orientation, metaData) {
   const xyzIndex = determineOrientationIndex(orientation);
   const ippArray = Array.from(metaData.values()).map(value => {
-    return {
-      z: value.imagePositionPatient[xyzIndex],
-      imagePositionPatient: value.imagePositionPatient,
-    };
+    return value.imagePositionPatient;
   });
 
   ippArray.sort(function(a, b) {
@@ -37,11 +34,12 @@ export default function computeZAxis(orientation, metaData) {
   });
 
   const positions = ippArray.map(a => a.z);
-
+  const spacing = mean(diff(positions));
+  const origin = ippArray[0];
   return {
-    spacing: mean(diff(positions)),
+    spacing,
     positions,
-    origin: ippArray[0].imagePositionPatient,
+    origin,
     xyzIndex,
   };
 }

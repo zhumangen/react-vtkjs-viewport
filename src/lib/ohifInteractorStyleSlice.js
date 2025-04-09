@@ -1,7 +1,8 @@
-import macro from 'vtk.js/Sources/macro';
-import vtkImageMapper from 'vtk.js/Sources/Rendering/Core/ImageMapper';
-import vtkConstants from 'vtk.js/Sources/Rendering/Core/InteractorStyle/Constants.js';
-import vtkInteractorStyleTrackballCamera from 'vtk.js/Sources/Interaction/Style/InteractorStyleTrackballCamera';
+// TODO: imports may be better, not sure
+const { macro } = vtk;
+const { vtkImageMapper } = vtk.Rendering.Core;
+const { States } = vtk.Rendering.Core.vtkInteractorStyle;
+const { vtkInteractorStyleTrackballCamera } = vtk.Interaction.Style;
 
 /**
  * Class inherits from InteractorStyle.
@@ -10,8 +11,6 @@ import vtkInteractorStyleTrackballCamera from 'vtk.js/Sources/Interaction/Style/
  * @param model - instance data.
  */
 function ohifInteractorStyleSlice(publicAPI, model) {
-  const States = vtkConstants.States;
-
   // Set our className
   model.classHierarchy.push('ohifInteractorStyleSlice');
   macro.setGet(publicAPI, model, ['directionalProperties']);

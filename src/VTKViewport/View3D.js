@@ -8,7 +8,7 @@ import vtkPaintWidget from 'vtk.js/Sources/Widgets/Widgets3D/PaintWidget';
 import ViewportOverlay from '../ViewportOverlay/ViewportOverlay.js';
 import { ViewTypes } from 'vtk.js/Sources/Widgets/Core/WidgetManager/Constants';
 import { createSub } from '../lib/createSub.js';
-import createLabelPipeline from './createLabelPipeline';
+import createLabelPipeline from '../lib/createLabelPipeline';
 
 import presets from '../presets';
 import applyPreset from '../helpers/applyPreset';

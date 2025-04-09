@@ -1,10 +1,20 @@
-import cornerstone from 'cornerstone-core';
-
 export default function buildMetadata(imageIds) {
   // Retrieve the Cornerstone imageIds from the display set
   // TODO: In future, we want to get the metadata independently from Cornerstone
-  const imageId0 = imageIds[0];
-
+  // NOTE: The caller of buildMetaData must have already registered a metaData Provider
+  const imagePlaneModule = cornerstone.metaData.get(
+    'imagePlaneModule',
+    imageIds[0]
+  );
+  const imagePixelMetaData = cornerstone.metaData.get(
+    'imagePixelModule',
+    imageIds[0]
+  );
+  const imageVoiMetaData = cornerstone.metaData.get(
+    'voiLutModule',
+    imageIds[0]
+  );
+  const { sliceThickness } = imagePlaneModule;
   const {
     pixelRepresentation,
     bitsAllocated,
@@ -12,26 +22,8 @@ export default function buildMetadata(imageIds) {
     highBit,
     photometricInterpretation,
     samplesPerPixel,
-  } = cornerstone.metaData.get('imagePixelModule', imageId0);
-
-  let { windowWidth, windowCenter } = cornerstone.metaData.get(
-    'voiLutModule',
-    imageId0
-  );
-
-  // TODO maybe expose voi lut lists?
-  if (Array.isArray(windowWidth)) {
-    windowWidth = windowWidth[0];
-  }
-
-  if (Array.isArray(windowCenter)) {
-    windowCenter = windowCenter[0];
-  }
-
-  const { modality } = cornerstone.metaData.get(
-    'generalSeriesModule',
-    imageId0
-  );
+  } = imagePixelMetaData;
+  const { windowCenter, windowWidth } = imageVoiMetaData;
 
   // Compute the image size and spacing given the meta data we already have available.
   const metaDataMap = new Map();
@@ -47,15 +39,15 @@ export default function buildMetadata(imageIds) {
     metaDataMap,
     imageIds,
     imageMetaData0: {
+      windowCenter,
+      windowWidth,
       bitsAllocated,
       bitsStored,
       samplesPerPixel,
+      sliceThickness,
       highBit,
       photometricInterpretation,
       pixelRepresentation,
-      windowWidth,
-      windowCenter,
-      modality,
     },
   };
 }

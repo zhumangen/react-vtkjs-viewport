@@ -1,5 +1,3 @@
-import cornerstone from 'cornerstone-core';
-
 export default function getPatientWeightAndCorrectedDose(imageId) {
   const seriesModule = cornerstone.metaData.get('generalSeriesModule', imageId);
 

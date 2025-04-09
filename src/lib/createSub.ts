@@ -1,4 +1,4 @@
-export function createSub(sub) {
+export function createSub(sub: any) {
   let s = sub;
   const unsubscribe = () => {
     if (s) {
@@ -7,7 +7,7 @@ export function createSub(sub) {
     }
   };
   return {
-    sub(newSub) {
+    sub(newSub: any) {
       unsubscribe();
       s = newSub;
     },

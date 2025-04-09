@@ -1,5 +1,3 @@
-import cornerstone from 'cornerstone-core';
-import { requestPoolManager } from 'cs-cornerstone-tools';
 import insertSlice from './data/insertSlice.js';
 import getPatientWeightAndCorrectedDose from './data/getPatientWeightAndCorrectedDose.js';
 
@@ -119,7 +117,7 @@ function prefetchImageIds(
   insertPixelDataErrorHandler
 ) {
   imageIds.forEach(imageId => {
-    requestPoolManager.addRequest(
+    cornerstoneTools.requestPoolManager.addRequest(
       {},
       imageId,
       requestType,
@@ -129,5 +127,5 @@ function prefetchImageIds(
     );
   });
 
-  requestPoolManager.startGrabbing();
+  cornerstoneTools.requestPoolManager.startGrabbing();
 }

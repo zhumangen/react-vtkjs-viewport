@@ -1,6 +1,5 @@
-import { getImageData } from './getImageData.js';
+import getImageData from './getImageData.js';
 import loadImageData from './loadImageData.js';
-import { logMemoryUsage } from './logMemoryUsage.js';
 import { math } from './math/index.js';
 import { MPR } from './MPR/index.js';
 import { switchToMPRMode } from './switchToMPRMode.js';
@@ -11,7 +10,6 @@ import throttle from './throttle.js';
 const VTKUtils = {
   getImageData,
   loadImageData,
-  logMemoryUsage,
   math,
   MPR,
   ohifInteractorStyleSlice,
