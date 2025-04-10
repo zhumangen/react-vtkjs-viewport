@@ -22,12 +22,10 @@ export default class View2D extends Component {
     orientation: PropTypes.object,
     viewportIndex: PropTypes.number.isRequired,
     onDoubleClick: PropTypes.func,
-    showCrosshair: PropTypes.bool,
     viewRotation: PropTypes.number,
   };
 
   static defaultProps = {
-    showCrosshair: false,
     viewRotation: 0,
   };
 
@@ -51,6 +49,7 @@ export default class View2D extends Component {
         sliceNormal: [...props.orientation.sliceNormal],
         viewUp: [...props.orientation.viewUp],
       },
+      showCrosshair: false,
     };
 
     this.apiProperties = {};
@@ -131,6 +130,7 @@ export default class View2D extends Component {
     const boundGetAxis = this.getAxis.bind(this);
     const boundSetRotation = this.setRotation.bind(this);
     const boundGetRotation = this.getRotation.bind(this);
+    const boundToggleCrosshairs = this.toggleCrosshairs.bind(this);
 
     this.svgWidgets = {};
 
@@ -166,11 +166,16 @@ export default class View2D extends Component {
         getAxis: boundGetAxis,
         setRotation: boundSetRotation,
         getRotation: boundGetRotation,
+        toggleCrosshairs: boundToggleCrosshairs,
         type: 'VIEW2D',
       };
 
       this.props.onCreated(api);
     }
+  }
+
+  toggleCrosshairs() {
+    this.setState({ showCrosshair: !this.state.showCrosshair });
   }
 
   updateCanvasCoords(intersection) {
@@ -426,7 +431,6 @@ export default class View2D extends Component {
   render() {
     const {
       volumes,
-      showCrosshair,
       onRotate,
       onThickness,
       dataDetails,
@@ -437,7 +441,7 @@ export default class View2D extends Component {
     }
 
     const style = { width: '100%', height: '100%', position: 'relative' };
-    const { voi, xAxis, yAxis, canvasCoords } = this.state;
+    const { showCrosshair, voi, xAxis, yAxis, canvasCoords } = this.state;
     const [width, height] = [
       this.container.current.offsetWidth,
       this.container.current.offsetHeight,
