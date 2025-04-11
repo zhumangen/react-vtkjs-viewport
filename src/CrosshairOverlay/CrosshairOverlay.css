@@ -1,21 +1,21 @@
-svg {
+.crosshairs {
   position: absolute;
   top: 0;
   left: 0;
   pointer-events: none;
 }
-svg.captureMouse {
+.crosshairs.captureMouse {
   pointer-events: all;
 }
-svg .hover {
+.crosshairs .hover {
   pointer-events: all;
   /* cursor: "pointer"; */
   /* Increase the mouse hover area */
   stroke: transparent;
   stroke-width: 6;
 }
-svg .hover:hover,
-svg .hover.active {
+.crosshairs .hover:hover,
+.crosshairs .hover.active {
   stroke: currentColor;
 }
 

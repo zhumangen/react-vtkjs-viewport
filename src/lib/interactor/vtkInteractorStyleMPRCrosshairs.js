@@ -10,7 +10,7 @@ import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/Mo
 import vtkInteractorStyleMPRSlice from './vtkInteractorStyleMPRSlice.js';
 import Constants from 'vtk.js/Sources/Rendering/Core/InteractorStyle/Constants';
 import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate';
-import windowLevelManipulator from './windowLevelManipulator.js';
+import windowLevelManipulator from '../windowLevelManipulator.js';
 
 const { States } = Constants;
 

@@ -50,6 +50,16 @@ export default class View2D extends Component {
         viewUp: [...props.orientation.viewUp],
       },
       showCrosshair: false,
+      xAxis: {
+        color: '',
+        rotation: 0,
+        thickness: 0,
+      },
+      yAxis: {
+        color: '',
+        rotation: 0,
+        thickness: 0,
+      },
     };
 
     this.apiProperties = {};
@@ -80,9 +90,6 @@ export default class View2D extends Component {
     istyle.setOnScroll();
     this.renderWindow.getInteractor().setInteractorStyle(istyle);
 
-    this.widgetManager.disablePicking();
-    this.widgetManager.setRenderer(this.paintRenderer);
-
     // trigger pipeline update
     this.componentDidUpdate({});
 
@@ -104,7 +111,7 @@ export default class View2D extends Component {
     camera.setParallelProjection(true);
     this.renderer.resetCamera();
 
-    istyle.setVolumeActor(this.props.volumes[0]);
+    // istyle.setVolumeActor(this.props.volumes[0]);
     const range = istyle.getSliceRange();
     istyle.setSlice((range[0] + range[1]) / 2);
 
@@ -250,8 +257,9 @@ export default class View2D extends Component {
     return { xAxis, yAxis };
   }
 
-  setRotation(rotation) {
-    this.setState({ rotation });
+  setRotation({ x, y }) {
+    const { x: ox, y: oy } = this.state.rotation;
+    this.setState({ x: x ? x : ox, y: y ? y : oy });
     this.updateSlicePlane();
   }
 
@@ -339,10 +347,9 @@ export default class View2D extends Component {
     const renderWindow = this.genericRenderWindow.getRenderWindow();
     // We are assuming the old style is always extended from the MPRSlice style
     const oldStyle = renderWindow.getInteractor().getInteractorStyle();
-    oldStyle?.setVolumeMapper(null);
+    oldStyle && oldStyle.setVolumeMapper(null);
 
     istyle.setInteractor(renderWindow.getInteractor());
-    istyle.setOnScrollChanged(data => this.onScrollChanged(data));
 
     // Make sure to set the style to the interactor itself, because reasons...?!
     const inter = renderWindow.getInteractor();
@@ -442,10 +449,12 @@ export default class View2D extends Component {
 
     const style = { width: '100%', height: '100%', position: 'relative' };
     const { showCrosshair, voi, xAxis, yAxis, canvasCoords } = this.state;
-    const [width, height] = [
-      this.container.current.offsetWidth,
-      this.container.current.offsetHeight,
-    ];
+    const [width, height] = this.container.current
+      ? [
+          this.container.current.offsetWidth,
+          this.container.current.offsetHeight,
+        ]
+      : [0, 0];
 
     return (
       <div style={style}>
@@ -462,8 +471,8 @@ export default class View2D extends Component {
             yAxis={yAxis}
             viewRotation={viewRotation}
             point={canvasCoords}
-            onRotate={onRotate}
-            onThickness={onThickness}
+            rotateChanged={onRotate}
+            thicknessChanged={onThickness}
           />
         ) : null}
         <ViewportOverlay {...dataDetails} voi={voi} />

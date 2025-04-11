@@ -11,7 +11,7 @@ import vtkMouseCameraTrackballRotateManipulator from 'vtk.js/Sources/Interaction
 import vtkMouseCameraTrackballPanManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseCameraTrackballPanManipulator';
 import vtkMouseCameraTrackballZoomManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseCameraTrackballZoomManipulator';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
-import { toWindowLevel, toLowHighRange } from './windowLevelRangeConverter';
+import { toWindowLevel, toLowHighRange } from '../windowLevelRangeConverter';
 
 // ----------------------------------------------------------------------------
 // Global methods

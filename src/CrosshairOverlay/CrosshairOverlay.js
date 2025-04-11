@@ -41,13 +41,14 @@ class CrosshairOverlay extends PureComponent {
   };
 
   getPoint() {
-    if (!this.props.point) return null;
+    const { point, width, height } = this.props;
+    if (!point) return null;
     return window.devicePixelRatio
       ? {
-          x: this.point.x / window.devicePixelRatio,
-          y: this.height - this.point.y / window.devicePixelRatio,
+          x: point.x / window.devicePixelRatio,
+          y: height - point.y / window.devicePixelRatio,
         }
-      : this.props.point;
+      : point;
   }
 
   getMaxMin() {
@@ -128,6 +129,7 @@ class CrosshairOverlay extends PureComponent {
   }
 
   startAction(event, action, invertAngle) {
+    const { xAxis, yAxis } = this.props;
     const newState = {
       action,
       mousedown: true,
@@ -135,8 +137,8 @@ class CrosshairOverlay extends PureComponent {
     if (action.startsWith('rotate')) {
       newState.invertAngle = invertAngle;
       newState.axisOffset = action.endsWith('X')
-        ? this.xAxis.rotation - this.yAxis.rotation
-        : this.yAxis.rotation - this.xAxis.rotation;
+        ? xAxis.rotation - yAxis.rotation
+        : yAxis.rotation - xAxis.rotation;
     }
     this.setState(newState);
   }
@@ -150,14 +152,12 @@ class CrosshairOverlay extends PureComponent {
     const { mousedown, action, invertAngle } = this.state;
 
     const point = this.getPoint();
-    const { x, y } = point || {};
+    const { x, y } = point || { x: 0, y: 0 };
     const { max } = this.getMaxMin();
     const circlePos = Math.floor(this.minLength / 2.5);
     const squarePos = Math.floor(this.minLength / 6);
-    const xThicknessPixels =
-      this.xAxis.thickness >= 1 ? this.xAxis.thickness / 2 : 0;
-    const yThicknessPixels =
-      this.yAxis.thickness >= 1 ? this.yAxis.thickness / 2 : 0;
+    const xThicknessPixels = xAxis.thickness >= 1 ? xAxis.thickness / 2 : 0;
+    const yThicknessPixels = yAxis.thickness >= 1 ? yAxis.thickness / 2 : 0;
 
     return point ? (
       <svg
@@ -166,7 +166,7 @@ class CrosshairOverlay extends PureComponent {
         viewBox={`0 0 ${width} ${height}`}
         mousemove={this.onMove}
         mouseup={this.endMove}
-        className={classnames({
+        className={classnames('crosshairs', {
           captureMouse: mousedown,
           rotateCursor: mousedown && action.startsWith('rotate'),
           thicknessCursor: mousedown && action.startsWith('thickness'),
@@ -185,8 +185,8 @@ class CrosshairOverlay extends PureComponent {
               y2={y + max}
               style={{
                 stroke: 'currentColor',
-                'stroke-width': 1,
-                'stroke-dasharray': 4,
+                strokeWidth: 1,
+                strokeDasharray: 4,
               }}
             />
             <circle
@@ -244,8 +244,8 @@ class CrosshairOverlay extends PureComponent {
                 <g
                   style={{
                     stroke: 'currentColor',
-                    'stroke-width': 1,
-                    'stroke-dasharray': 4,
+                    strokeWidth: 1,
+                    strokeDasharray: 4,
                   }}
                 >
                   <line
@@ -277,8 +277,8 @@ class CrosshairOverlay extends PureComponent {
               y2={y}
               style={{
                 stroke: 'currentColor',
-                'stroke-width': 1,
-                'stroke-dasharray': 4,
+                strokeWidth: 1,
+                strokeDasharray: 4,
               }}
             />
             <circle
@@ -333,7 +333,13 @@ class CrosshairOverlay extends PureComponent {
                   onMouseDown={this.startAction.bind(this, 'thicknessX')}
                   className="hover thicknessXCursor"
                 />
-                <g style="stroke: currentColor; stroke-width: 1; stroke-dasharray: 4">
+                <g
+                  style={{
+                    stroke: 'currentColor',
+                    strokeWidth: 1,
+                    strokeDasharray: 4,
+                  }}
+                >
                   <line
                     x1={x - max}
                     y1={y - xThicknessPixels}

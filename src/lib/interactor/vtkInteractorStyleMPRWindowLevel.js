@@ -4,7 +4,7 @@ import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/Mo
 import Constants from 'vtk.js/Sources/Rendering/Core/InteractorStyle/Constants';
 
 import vtkInteractorStyleMPRSlice from './vtkInteractorStyleMPRSlice.js';
-import windowLevelManipulator from './windowLevelManipulator.js';
+import windowLevelManipulator from '../windowLevelManipulator.js';
 
 const { States } = Constants;
 
