@@ -66,12 +66,14 @@ class CrosshairOverlay extends PureComponent {
       xAxis,
       yAxis,
       viewRotation,
+      thicknessChanged,
+      rotateChanged,
     } = this.props;
     const { x, y } = this.getPoint();
     if (mousedown) {
       const shiftKey = event.shiftKey;
       const isX = action.endsWith('X');
-      const newPos = [event.offsetX, event.offsetY];
+      const newPos = [event.clientX, event.clientY];
 
       // account for the view's rotation by rotating the mouse position around the center
       if (viewRotation)
@@ -101,9 +103,9 @@ class CrosshairOverlay extends PureComponent {
         if (angle >= 89) angle = 89;
         else if (angle <= -89) angle = -89;
         // emit the rotation
-        this.rotateChanged({ axis: isX ? 'x' : 'y', angle: angle });
+        rotateChanged({ axis: isX ? 'x' : 'y', angle: angle });
         if (lockAxis && !(shiftUnlockAxis && shiftKey)) {
-          this.rotateChanged({
+          rotateChanged({
             axis: !isX ? 'x' : 'y',
             angle: angle - axisOffset,
           });
@@ -123,12 +125,12 @@ class CrosshairOverlay extends PureComponent {
         // Have a deadzone so it can snap to "nothing". Default is 0.1. Must be > 0 or it shows nothing
         if (dist < 3) dist = 0.05;
         // Multiply by 2 since the thickness is split between the axis
-        this.thicknessChanged({ axis: isX ? 'x' : 'y', thickness: dist * 2 });
+        thicknessChanged({ axis: isX ? 'x' : 'y', thickness: dist * 2 });
       }
     }
   }
 
-  startAction(event, action, invertAngle) {
+  startAction(action, event, invertAngle) {
     const { xAxis, yAxis } = this.props;
     const newState = {
       action,
@@ -153,9 +155,9 @@ class CrosshairOverlay extends PureComponent {
 
     const point = this.getPoint();
     const { x, y } = point || { x: 0, y: 0 };
-    const { max } = this.getMaxMin();
-    const circlePos = Math.floor(this.minLength / 2.5);
-    const squarePos = Math.floor(this.minLength / 6);
+    const { max, min } = this.getMaxMin();
+    const circlePos = Math.floor(min / 2.5);
+    const squarePos = Math.floor(min / 6);
     const xThicknessPixels = xAxis.thickness >= 1 ? xAxis.thickness / 2 : 0;
     const yThicknessPixels = yAxis.thickness >= 1 ? yAxis.thickness / 2 : 0;
 
@@ -164,8 +166,8 @@ class CrosshairOverlay extends PureComponent {
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
-        mousemove={this.onMove}
-        mouseup={this.endMove}
+        onMouseMove={this.onMove.bind(this)}
+        onMouseUp={this.endMove.bind(this)}
         className={classnames('crosshairs', {
           captureMouse: mousedown,
           rotateCursor: mousedown && action.startsWith('rotate'),

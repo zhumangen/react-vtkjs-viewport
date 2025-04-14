@@ -259,7 +259,7 @@ export default class View2D extends Component {
 
   setRotation({ x, y }) {
     const { x: ox, y: oy } = this.state.rotation;
-    this.setState({ x: x ? x : ox, y: y ? y : oy });
+    this.setState({ rotation: { x: x ? x : ox, y: y ? y : oy } });
     this.updateSlicePlane();
   }
 
@@ -288,7 +288,7 @@ export default class View2D extends Component {
     if (currentIStyle && currentIStyle.setSliceNormal)
       currentIStyle.setSliceNormal(sliceNormal, viewUp);
 
-    this.setState({ rotation: { sliceNormal, viewUp } });
+    this.setState({ orientation: { sliceNormal, viewUp } });
   }
 
   resetOrientation() {
