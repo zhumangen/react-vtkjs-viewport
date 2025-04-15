@@ -4,7 +4,7 @@ import vtkMatrixBuilder from 'vtk.js/Sources/Common/Core/MatrixBuilder';
 import vtkInteractorStyleManipulator from 'vtk.js/Sources/Interaction/Style/InteractorStyleManipulator';
 import vtkMouseCameraTrackballRotateManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseCameraTrackballRotateManipulator';
 import vtkMouseCameraTrackballPanManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseCameraTrackballPanManipulator';
-import vtkMouseCameraTrackballZoomManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseCameraTrackballZoomManipulator';
+import windowLevelManipulator from './Manipulators/windowLevelManipulator';
 import vtkMouseRangeManipulator from 'vtk.js/Sources/Interaction/Manipulators/MouseRangeManipulator';
 import vtkCoordinate from 'vtk.js/Sources/Rendering/Core/Coordinate';
 import Constants from 'vtk.js/Sources/Rendering/Core/InteractorStyle/Constants';
@@ -58,7 +58,7 @@ function vtkInteractorStyleMPRSlice(publicAPI, model) {
   model.panManipulator = vtkMouseCameraTrackballPanManipulator.newInstance({
     button: 2,
   });
-  model.zoomManipulator = vtkMouseCameraTrackballZoomManipulator.newInstance({
+  model.wlManipulator = windowLevelManipulator.newInstance({
     button: 3,
   });
 
@@ -82,7 +82,7 @@ function vtkInteractorStyleMPRSlice(publicAPI, model) {
     model.scrollManipulator.setScrollListener(
       range[0],
       range[1],
-      1,
+      -1,
       publicAPI.getSlice,
       publicAPI.scrollToSlice
     );
@@ -92,7 +92,7 @@ function vtkInteractorStyleMPRSlice(publicAPI, model) {
     publicAPI.removeAllMouseManipulators();
     publicAPI.addMouseManipulator(model.trackballManipulator);
     publicAPI.addMouseManipulator(model.panManipulator);
-    publicAPI.addMouseManipulator(model.zoomManipulator);
+    publicAPI.addMouseManipulator(model.wlManipulator);
     publicAPI.addMouseManipulator(model.scrollManipulator);
     publicAPI.updateScrollManipulator();
   }
@@ -282,6 +282,7 @@ function vtkInteractorStyleMPRSlice(publicAPI, model) {
     }
 
     const { apis, apiIndex } = model;
+    if (!apis) return;
     const thisApi = apis[apiIndex];
 
     // This stops the clipping range being randomly reset.
@@ -334,6 +335,7 @@ function vtkInteractorStyleMPRSlice(publicAPI, model) {
 
   publicAPI.setVolumeActor = actor => {
     model.volumeActor = actor;
+    model.wlManipulator.setVolumeActor(actor);
     const renderer = model.interactor.getCurrentRenderer();
     const camera = renderer.getActiveCamera();
     if (actor) {

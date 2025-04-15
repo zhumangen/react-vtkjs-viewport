@@ -23,7 +23,7 @@ class ViewportOverlay extends PureComponent {
     studyDescription: PropTypes.string,
     patientName: PropTypes.string,
     patientId: PropTypes.string,
-    patientAge: PropTypes.string,
+    patientAge: PropTypes.any,
     patientBirthDate: PropTypes.string,
     patientSex: PropTypes.string,
     seriesNumber: PropTypes.string,
@@ -77,7 +77,7 @@ class ViewportOverlay extends PureComponent {
         </div>
         <div className="bottom-right overlay-element">
           <div>{wwwc}</div>
-          <div>{rotationString}</div>
+          {/* <div>{rotationString}</div> */}
         </div>
         <div className="bottom-left overlay-element">
           <div>{seriesNumber >= 0 ? `Ser: ${seriesNumber}` : ''}</div>
