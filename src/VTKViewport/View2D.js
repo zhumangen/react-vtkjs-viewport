@@ -318,6 +318,8 @@ export default class View2D extends Component {
       viewUp: [0, -1, 0],
     };
 
+    this.renderer.resetCamera();
+
     // Reset orientation.
     this.setOrientation(orientation.sliceNormal, orientation.viewUp);
 
