@@ -29,5 +29,8 @@
   "workbench.colorCustomizations": {},
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
-  }
+  },
+  "terminal.integrated.env.windows": {
+    "NODE_OPTIONS": "--openssl-legacy-provider"
+  },
 }
